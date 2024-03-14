@@ -25,3 +25,54 @@
 /processorParam:TextureFormat=Color
 /build:images/Logo.png
 
+#begin images/spritesheet_hud.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/spritesheet_hud.png
+
+#begin images/spritesheet_hud.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:images/spritesheet_hud.xml
+
+#begin images/spritesheet_objects.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/spritesheet_objects.png
+
+#begin images/spritesheet_objects.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:images/spritesheet_objects.xml
+
+#begin images/spritesheet_stall.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:images/spritesheet_stall.png
+
+#begin images/spritesheet_stall.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:images/spritesheet_stall.xml
+
