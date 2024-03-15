@@ -12,7 +12,9 @@ public class TargetPractice : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    SceneManager _sceneManager;
+    private SceneManager _sceneManager;
+    private ResourceManager _resourceManager;
+    private Vector2 _screenSize;
 
 
     public TargetPractice()
@@ -26,16 +28,16 @@ public class TargetPractice : Game
     protected override void Initialize()
     {
         _sceneManager = new SceneManager();
+        _resourceManager = new ResourceManager(Content, GraphicsDevice);
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        var logo = Content.Load<Texture2D>("images/logo");
-        var overlay = new Texture2D(GraphicsDevice, 1, 1);
-        var scene = new LogoScene(logo, overlay);
+        var scene = new LogoScene(_resourceManager);
         _sceneManager.ChangeScene(scene);
+        _sceneManager.LoadContent();
         base.LoadContent();
     }
 
@@ -43,6 +45,7 @@ public class TargetPractice : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
+        OnResize();
         _sceneManager.Update(gameTime);
         base.Update(gameTime);
     }
@@ -63,5 +66,13 @@ public class TargetPractice : Game
         _graphics.IsFullScreen = true;
         _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+    }
+
+    public void OnResize()
+    {
+        var currentScreenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+        if (_screenSize == currentScreenSize) return;
+        _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+        _sceneManager.OnResize(_screenSize);
     }
 }
