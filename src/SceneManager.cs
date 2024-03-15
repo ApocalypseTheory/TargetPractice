@@ -1,8 +1,11 @@
 
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+
 namespace TargetPractice.Scenes;
 public class SceneManager
 {
-    private IScene _currentScene
+    private IScene _currentScene;
 
     public void ChangeScene(IScene scene)
     {
@@ -12,11 +15,11 @@ public class SceneManager
 
     public void Update(GameTime gameTime)
     {
-        _currentScene.Update(gameTime);
+        _currentScene?.Update(gameTime);
     }
 
     public void Draw(SpriteBatch spriteBatch)
     {
-        _currentScene.Draw(spriteBatch);
+        _currentScene?.Draw(spriteBatch);
     }
 }

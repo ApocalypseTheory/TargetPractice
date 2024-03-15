@@ -3,6 +3,8 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TargetPractice.Logo;
+using TargetPractice.Scenes;
+
 
 namespace TargetPractice;
 
@@ -10,7 +12,7 @@ public class TargetPractice : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    Logo _logo;
+    SceneManager _sceneManager;
 
 
     public TargetPractice()
@@ -23,7 +25,7 @@ public class TargetPractice : Game
 
     protected override void Initialize()
     {
-        _logo = new Logo();
+        _sceneManager = new SceneManager();
         base.Initialize();
     }
 
@@ -32,7 +34,8 @@ public class TargetPractice : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         var logo = Content.Load<Texture2D>("images/logo");
         var overlay = new Texture2D(GraphicsDevice, 1, 1);
-        _logo.LoadContent(logo, overlay);
+        var scene = new LogoScene(logo, overlay);
+        _sceneManager.ChangeScene(scene);
         base.LoadContent();
     }
 
@@ -40,7 +43,7 @@ public class TargetPractice : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        _logo.Update(gameTime, GraphicsDevice);
+        _sceneManager.Update(gameTime);
         base.Update(gameTime);
     }
 
@@ -48,7 +51,7 @@ public class TargetPractice : Game
     {
         GraphicsDevice.Clear(Color.Black);
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-        _logo.Draw(_spriteBatch);
+        _sceneManager.Draw(_spriteBatch);
         base.Draw(gameTime);
         _spriteBatch.End();
     }

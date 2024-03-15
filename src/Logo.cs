@@ -4,7 +4,7 @@ using TargetPractice.Scenes;
 
 namespace TargetPractice.Logo;
 
-public class Logo : IScene
+public class LogoScene : IScene
 {
     Texture2D _logo;
     float _logoTimeElapsed = 0f;
@@ -15,7 +15,7 @@ public class Logo : IScene
     int _scaledWidth, _scaledHeight;
     Rectangle _logoDestRect, _fullScreenRect;
 
-    public Logo(Texture2D logo, Texture2D fadeToBlack)
+    public LogoScene(Texture2D logo, Texture2D fadeToBlack)
     {
         _logo = logo;
         _fadeToBlack = fadeToBlack;
@@ -26,34 +26,34 @@ public class Logo : IScene
     {
     }
 
-    public void Update(GameTime gameTime, GraphicsDevice graphicsDevice)
+    public void Update(GameTime gameTime)
     {
         if (_logoTimeElapsed > _logoDuration)
         {
             return;
         }
-        _logoTimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (_logoTimeElapsed > 1f && _logoTimeElapsed <= _logoDuration)
-        {
-            _overlayAlpha = MathHelper.Lerp(0f, 1f, (_logoTimeElapsed - 1f) / 0.5f);
-            _overlayAlpha = MathHelper.Clamp(_overlayAlpha, 0f, 1f);
-        }
-        _screenAspect = graphicsDevice.Viewport.Width / (float)graphicsDevice.Viewport.Height;
-        _logoAspect = _logo.Width / (float)_logo.Height;
-        if (_logoAspect > _screenAspect)
-        {
-            _scaledWidth = graphicsDevice.Viewport.Width;
-            _scaledHeight = (int)(_scaledWidth / _logoAspect);
-        }
-        else
-        {
-            _scaledHeight = graphicsDevice.Viewport.Height;
-            _scaledWidth = (int)(_scaledHeight * _logoAspect);
+        // _logoTimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
+        // if (_logoTimeElapsed > 1f && _logoTimeElapsed <= _logoDuration)
+        // {
+        //     _overlayAlpha = MathHelper.Lerp(0f, 1f, (_logoTimeElapsed - 1f) / 0.5f);
+        //     _overlayAlpha = MathHelper.Clamp(_overlayAlpha, 0f, 1f);
+        // }
+        // _screenAspect = graphicsDevice.Viewport.Width / (float)graphicsDevice.Viewport.Height;
+        // _logoAspect = _logo.Width / (float)_logo.Height;
+        // if (_logoAspect > _screenAspect)
+        // {
+        //     _scaledWidth = graphicsDevice.Viewport.Width;
+        //     _scaledHeight = (int)(_scaledWidth / _logoAspect);
+        // }
+        // else
+        // {
+        //     _scaledHeight = graphicsDevice.Viewport.Height;
+        //     _scaledWidth = (int)(_scaledHeight * _logoAspect);
 
-        }
+        // }
 
-        _logoDestRect = new Rectangle((graphicsDevice.Viewport.Width - _scaledWidth) / 2, (graphicsDevice.Viewport.Height - _scaledHeight) / 2, _scaledWidth, _scaledHeight);
-        _fullScreenRect = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
+        // _logoDestRect = new Rectangle((graphicsDevice.Viewport.Width - _scaledWidth) / 2, (graphicsDevice.Viewport.Height - _scaledHeight) / 2, _scaledWidth, _scaledHeight);
+        // _fullScreenRect = new Rectangle(0, 0, graphicsDevice.Viewport.Width, graphicsDevice.Viewport.Height);
     }
 
     public void Draw(SpriteBatch spriteBatch)
