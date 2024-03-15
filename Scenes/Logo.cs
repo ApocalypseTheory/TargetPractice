@@ -33,6 +33,9 @@ public class LogoScene : IScene
         _logoAspect = _logo.Width / (float)_logo.Height;
         _fadeToBlack = _resourceManager.CreateOverlayTexture();
         _fadeToBlack.SetData(new Color[] { Color.Black });
+        _resourceManager.LoadSpriteAtlas("images/spritesheet_hud");
+
+
     }
 
     public void Update(GameTime gameTime)
@@ -52,8 +55,9 @@ public class LogoScene : IScene
 
     public void Draw(SpriteBatch spriteBatch)
     {
+        //_resourceManager.DrawSprite(spriteBatch, "images/spritesheet_hud", "crosshair_blue_large.png", new Vector2(100, 100), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.5f);
         spriteBatch.Draw(_logo, _logoDestRect, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f);
-        spriteBatch.Draw(_fadeToBlack, _fullScreenRect, null, new Color(0f, 0f, 0f, _overlayAlpha), 0f, Vector2.Zero, SpriteEffects.None, 0.1f);
+        spriteBatch.Draw(_fadeToBlack, _fullScreenRect, null, new Color(0f, 0f, 0f, _overlayAlpha), 0f, Vector2.Zero, SpriteEffects.None, 1.0f);
     }
 
     public void OnResize(Vector2 newScreenSize)

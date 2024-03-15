@@ -42,7 +42,7 @@ public class ResourceManager
         if (!_spriteAtlases.ContainsKey(assetName))
         {
             Texture2D spriteSheet = LoadTexture(assetName);
-            XDocument doc = XDocument.Load($"{assetName}.xml");
+            XDocument doc = XDocument.Load($"Content/{assetName}.xml");
             SpriteAtlas atlas = new SpriteAtlas(spriteSheet, doc);
             _spriteAtlases[assetName] = atlas;
 
@@ -53,12 +53,12 @@ public class ResourceManager
         }
     }
 
-    public void DrawSprite(SpriteBatch spriteBatch, string atlasName, string spriteName, Vector2 position, Color color)
+    public void DrawSprite(SpriteBatch spriteBatch, string atlasName, string spriteName, Vector2 position, Color color, float rotation = 0f, Vector2 origin = default(Vector2), float scale = 1f, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
     {
         if (_spriteAtlases.ContainsKey(atlasName))
         {
             SpriteAtlas atlas = _spriteAtlases[atlasName];
-            atlas.Draw(spriteBatch, spriteName, position, color);
+            atlas.Draw(spriteBatch, spriteName, position, color, rotation, origin, scale, effects, layerDepth);
         }
     }
 

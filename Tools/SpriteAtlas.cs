@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 using Microsoft.Xna.Framework;
@@ -22,6 +23,7 @@ public class SpriteAtlas
         foreach (var spriteElement in doc.Descendants("SubTexture"))
         {
             string name = spriteElement.Attribute("name").Value;
+            Console.WriteLine(name);
             int x = int.Parse(spriteElement.Attribute("x").Value);
             int y = int.Parse(spriteElement.Attribute("y").Value);
             int width = int.Parse(spriteElement.Attribute("width").Value);
@@ -31,12 +33,12 @@ public class SpriteAtlas
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, string spriteName, Vector2 position, Color color)
+    public void Draw(SpriteBatch spriteBatch, string spriteName, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
     {
         if (_spriteCoordinates.ContainsKey(spriteName))
         {
             Rectangle sourceRectangle = _spriteCoordinates[spriteName];
-            spriteBatch.Draw(_spriteSheet, position, sourceRectangle, color);
+            spriteBatch.Draw(_spriteSheet, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
         }
     }
 }
