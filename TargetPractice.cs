@@ -2,8 +2,8 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
-using TargetPractice.Logo;
 using TargetPractice.Scenes;
+using TargetPractice.Tools;
 
 
 namespace TargetPractice;

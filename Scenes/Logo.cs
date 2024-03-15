@@ -1,8 +1,9 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using TargetPractice.Scenes;
+using TargetPractice.Tools;
 
-namespace TargetPractice.Logo;
+namespace TargetPractice.Scenes;
 
 public class LogoScene : IScene
 {
@@ -20,6 +21,8 @@ public class LogoScene : IScene
     {
         _resourceManager = resourceManager;
     }
+
+    public event Action<SceneTypes> RequestSceneChange;
     public void Initialize()
     {
     }
@@ -39,6 +42,11 @@ public class LogoScene : IScene
         {
             _overlayAlpha = MathHelper.Lerp(0f, 1f, (_logoTimeElapsed - 1f) / 0.5f);
             _overlayAlpha = MathHelper.Clamp(_overlayAlpha, 0f, 1f);
+        }
+
+        if (_logoTimeElapsed > _logoDuration)
+        {
+            RequestSceneChange?.Invoke(SceneTypes.MainMenu);
         }
     }
 

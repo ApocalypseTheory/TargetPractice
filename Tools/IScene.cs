@@ -1,10 +1,21 @@
+using System;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace TargetPractice.Scenes;
+namespace TargetPractice.Tools;
+
+public enum SceneTypes
+{
+    Logo,
+    MainMenu,
+    Game,
+    GameOver,
+    Credits
+}
 
 public interface IScene
 {
+    event Action<SceneTypes> RequestSceneChange;
     void Initialize();
     void LoadContent();
     void Update(GameTime gameTime);
