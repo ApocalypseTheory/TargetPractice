@@ -13,6 +13,36 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin Audio/Dreamland (Loop).wav
+/importer:WavImporter
+/processor:SoundEffectProcessor
+/processorParam:Quality=Best
+/build:Audio/Dreamland (Loop).wav
+
+#begin Audio/metal_light1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/metal_light1.ogg
+
+#begin Audio/metal_light2.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/metal_light2.ogg
+
+#begin Audio/metal_medium.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/metal_medium.ogg
+
+#begin Audio/wood.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:Audio/wood.ogg
+
 #begin images/Logo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -75,4 +105,125 @@
 /importer:XmlImporter
 /processor:PassThroughProcessor
 /build:images/spritesheet_stall.xml
+
+#begin UI/blueSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/blueSheet.png
+
+#begin UI/blueSheet.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:UI/blueSheet.xml
+
+#begin UI/click1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:UI/click1.ogg
+
+#begin UI/click2.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:UI/click2.ogg
+
+#begin UI/greenSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/greenSheet.png
+
+#begin UI/greenSheet.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:UI/greenSheet.xml
+
+#begin UI/greySheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/greySheet.png
+
+#begin UI/greySheet.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:UI/greySheet.xml
+
+#begin UI/redSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/redSheet.png
+
+#begin UI/redSheet.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:UI/redSheet.xml
+
+#begin UI/rollover1.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:UI/rollover1.ogg
+
+#begin UI/rollover2.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:UI/rollover2.ogg
+
+#begin UI/switch2.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:UI/switch2.ogg
+
+#begin UI/switch3.ogg
+/importer:OggImporter
+/processor:SongProcessor
+/processorParam:Quality=Best
+/build:UI/switch3.ogg
+
+#begin UI/yellowSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:UI/yellowSheet.png
+
+#begin UI/yellowSheet.xml
+/importer:XmlImporter
+/processor:PassThroughProcessor
+/build:UI/yellowSheet.xml
 

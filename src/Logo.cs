@@ -1,11 +1,10 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
-using TargetPractie.Logo;
+using TargetPractice.Scenes;
 
-namespace TargetPractie.Logo;
+namespace TargetPractice.Logo;
 
-public class Logo
+public class Logo : IScene
 {
     Texture2D _logo;
     float _logoTimeElapsed = 0f;
@@ -16,15 +15,15 @@ public class Logo
     int _scaledWidth, _scaledHeight;
     Rectangle _logoDestRect, _fullScreenRect;
 
-    public Logo()
-    {
-    }
-
-    public void LoadContent(Texture2D logo, Texture2D fadeToBlack)
+    public Logo(Texture2D logo, Texture2D fadeToBlack)
     {
         _logo = logo;
         _fadeToBlack = fadeToBlack;
         _fadeToBlack.SetData(new Color[] { Color.Black });
+    }
+
+    public void Initialize()
+    {
     }
 
     public void Update(GameTime gameTime, GraphicsDevice graphicsDevice)
