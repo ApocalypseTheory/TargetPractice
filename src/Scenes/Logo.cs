@@ -1,14 +1,15 @@
 using System;
 using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using TargetPractice.Tools;
 
 namespace TargetPractice.Scenes;
 
 public class LogoScene : DrawableGameComponent
 {
-    private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
+    private ContentManager _sceneContent;
+    private SpriteAtlas _spriteAtlas;
     private Texture2D _logo;
     private Texture2D _fadeToBlack;
     private float _logoTimeElapsed = 0f;
@@ -17,29 +18,27 @@ public class LogoScene : DrawableGameComponent
     private float _screenAspect, _logoAspect;
     private int _scaledWidth, _scaledHeight;
     private Rectangle _logoDestRect, _fullScreenRect;
-    private ResourceManager _resourceManager;
     private Vector2 _screenSize;
-    public LogoScene(Game game, ResourceManager resourceManager) : base(game)
+    public LogoScene(Game game) : base(game)
     {
-        _resourceManager = resourceManager;
+        _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
+        _spriteAtlas = new SpriteAtlas(_sceneContent);
     }
 
     public override void Initialize()
     {
-        Console.WriteLine("ONe");
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
-        Console.WriteLine("Two");
-        _logo = _resourceManager.LoadTexture("images/logo");
+        _logo = _sceneContent.Load<Texture2D>("images/logo");
         _logoAspect = _logo.Width / (float)_logo.Height;
-        _fadeToBlack = _resourceManager.CreateOverlayTexture();
+        _fadeToBlack = new Texture2D(GraphicsDevice, 1, 1);
         _fadeToBlack.SetData(new Color[] { Color.Black });
-        _resourceManager.LoadSpriteAtlas("images/spritesheet_hud");
+        _spriteAtlas.LoadSheet("spritesheet_hud");
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        OnResize();
+        SetWindowSize();
         base.LoadContent();
 
 
@@ -47,7 +46,6 @@ public class LogoScene : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        Console.WriteLine("Three");
         _logoTimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
         if (_logoTimeElapsed > 1f && _logoTimeElapsed <= _logoDuration)
         {
@@ -64,9 +62,8 @@ public class LogoScene : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        Console.WriteLine("Four");
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-        //_resourceManager.DrawSprite(_spriteBatch, "images/spritesheet_hud", "crosshair_blue_large.png", new Vector2(100, 100), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.5f);
+        _spriteAtlas.Draw(_spriteBatch, "spritesheet_hud", "crosshair_blue_large.png", new Vector2(100, 100), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.5f);
         _spriteBatch.Draw(
             _logo
         , _logoDestRect
@@ -84,7 +81,7 @@ public class LogoScene : DrawableGameComponent
         base.Draw(gameTime);
     }
 
-    public void OnResize()
+    public void SetWindowSize()
     {
         _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         _screenAspect = _screenSize.X / (float)_screenSize.Y;
@@ -101,5 +98,11 @@ public class LogoScene : DrawableGameComponent
         }
         _logoDestRect = new Rectangle(((int)_screenSize.X - _scaledWidth) / 2, ((int)_screenSize.Y - _scaledHeight) / 2, _scaledWidth, _scaledHeight);
         _fullScreenRect = new Rectangle(0, 0, (int)_screenSize.X, (int)_screenSize.Y);
+    }
+
+    protected override void UnloadContent()
+    {
+        _sceneContent.Unload();
+        base.UnloadContent();
     }
 }

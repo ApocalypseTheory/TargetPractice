@@ -3,7 +3,6 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TargetPractice.Scenes;
-using TargetPractice.Tools;
 
 
 namespace TargetPractice;
@@ -12,8 +11,6 @@ public class TargetPractice : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private ResourceManager _resourceManager;
-    private Vector2 _screenSize;
 
 
     public TargetPractice()
@@ -26,8 +23,7 @@ public class TargetPractice : Game
 
     protected override void Initialize()
     {
-        _resourceManager = new ResourceManager(Content, GraphicsDevice);
-        var scene = new LogoScene(this, _resourceManager);
+        var scene = new LogoScene(this);
         Components.Add(scene);
         base.Initialize();
     }
@@ -63,13 +59,4 @@ public class TargetPractice : Game
         _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
     }
-
-    //TODO: Reimpliment
-    // public void OnResize()
-    // {
-    //     var currentScreenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-    //     if (_screenSize == currentScreenSize) return;
-    //     _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-    //     _sceneManager.OnResize(_screenSize);
-    // }
 }

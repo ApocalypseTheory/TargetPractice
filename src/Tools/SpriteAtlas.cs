@@ -1,44 +1,51 @@
-using System;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Content;
+using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-
-
-namespace TargetPractice.Tools;
 
 public class SpriteAtlas
 {
-    private Texture2D _spriteSheet;
-    private Dictionary<string, Rectangle> _spriteCoordinates = new Dictionary<string, Rectangle>();
+    private Dictionary<string, Texture2D> _sheets = new Dictionary<string, Texture2D>();
+    private Dictionary<string, Dictionary<string, Rectangle>> _sprites = new Dictionary<string, Dictionary<string, Rectangle>>();
+    private ContentManager _content;
 
-    public SpriteAtlas(Texture2D spriteSheet, XDocument doc)
+    public SpriteAtlas(ContentManager content)
     {
-        _spriteSheet = spriteSheet;
-        ParseXML(doc);
+        _content = content;
     }
 
-    private void ParseXML(XDocument doc)
+    public void LoadSheet(string assetName)
     {
+        Texture2D sheet = _content.Load<Texture2D>($"spritesheets/{assetName}");
+        _sheets[assetName] = sheet;
+        LoadSprites(assetName, $"Content/xml/{assetName}.xml");
+    }
+
+    private void LoadSprites(string assetName, string xmlPath)
+    {
+        XDocument doc = XDocument.Load(xmlPath);
+        Dictionary<string, Rectangle> spriteMap = new Dictionary<string, Rectangle>();
         foreach (var spriteElement in doc.Descendants("SubTexture"))
         {
             string name = spriteElement.Attribute("name").Value;
-            Console.WriteLine(name);
             int x = int.Parse(spriteElement.Attribute("x").Value);
             int y = int.Parse(spriteElement.Attribute("y").Value);
             int width = int.Parse(spriteElement.Attribute("width").Value);
             int height = int.Parse(spriteElement.Attribute("height").Value);
 
-            _spriteCoordinates[name] = new Rectangle(x, y, width, height);
+            spriteMap[name] = new Rectangle(x, y, width, height);
         }
+        _sprites[assetName] = spriteMap;
     }
 
-    public void Draw(SpriteBatch spriteBatch, string spriteName, Vector2 position, Color color, float rotation, Vector2 origin, float scale, SpriteEffects effects, float layerDepth)
+    public void Draw(SpriteBatch spriteBatch, string assetName, string spriteName, Vector2 position, Color color, float rotation = 0f, Vector2 origin = default, float scale = 1f, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
     {
-        if (_spriteCoordinates.ContainsKey(spriteName))
+        if (_sprites.ContainsKey(assetName) && _sprites[assetName].ContainsKey(spriteName))
         {
-            Rectangle sourceRectangle = _spriteCoordinates[spriteName];
-            spriteBatch.Draw(_spriteSheet, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
+            Texture2D sheet = _sheets[assetName];
+            Rectangle sourceRectangle = _sprites[assetName][spriteName];
+            spriteBatch.Draw(sheet, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
         }
     }
 }
