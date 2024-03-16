@@ -12,7 +12,6 @@ public class TargetPractice : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-    private SceneManager _sceneManager;
     private ResourceManager _resourceManager;
     private Vector2 _screenSize;
 
@@ -27,17 +26,16 @@ public class TargetPractice : Game
 
     protected override void Initialize()
     {
-        _sceneManager = new SceneManager();
         _resourceManager = new ResourceManager(Content, GraphicsDevice);
+        var scene = new LogoScene(this, _resourceManager);
+        Components.Add(scene);
         base.Initialize();
     }
 
     protected override void LoadContent()
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        var scene = new LogoScene(_resourceManager);
-        _sceneManager.ChangeScene(scene);
-        _sceneManager.LoadContent();
+
         base.LoadContent();
     }
 
@@ -45,8 +43,7 @@ public class TargetPractice : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        OnResize();
-        _sceneManager.Update(gameTime);
+        // OnResize();
         base.Update(gameTime);
     }
 
@@ -54,7 +51,6 @@ public class TargetPractice : Game
     {
         GraphicsDevice.Clear(Color.Black);
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-        _sceneManager.Draw(_spriteBatch);
         base.Draw(gameTime);
         _spriteBatch.End();
     }
@@ -68,11 +64,12 @@ public class TargetPractice : Game
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
     }
 
-    public void OnResize()
-    {
-        var currentScreenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-        if (_screenSize == currentScreenSize) return;
-        _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-        _sceneManager.OnResize(_screenSize);
-    }
+    //TODO: Reimpliment
+    // public void OnResize()
+    // {
+    //     var currentScreenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+    //     if (_screenSize == currentScreenSize) return;
+    //     _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
+    //     _sceneManager.OnResize(_screenSize);
+    // }
 }
