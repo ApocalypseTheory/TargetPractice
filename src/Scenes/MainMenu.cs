@@ -4,12 +4,11 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace TargetPractice.Scenes;
 
-public class LogoScene : DrawableGameComponent
+public class MainMenuScene : DrawableGameComponent
 {
     private SpriteBatch _spriteBatch;
     private ContentManager _sceneContent;
-    private Texture2D _logo;
-    private Texture2D _fadeToBlack;
+    private SpriteAtlas _spriteAtlas;
     private float _logoTimeElapsed = 0f;
     private float _logoDuration = 3f;
     private float _overlayAlpha = 0f;
@@ -17,9 +16,10 @@ public class LogoScene : DrawableGameComponent
     private int _scaledWidth, _scaledHeight;
     private Rectangle _logoDestRect, _fullScreenRect;
     private Vector2 _screenSize;
-    public LogoScene(Game game) : base(game)
+    public MainMenuScene(Game game) : base(game)
     {
         _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
+        _spriteAtlas = new SpriteAtlas(_sceneContent);
     }
 
     public override void Initialize()
@@ -29,10 +29,7 @@ public class LogoScene : DrawableGameComponent
 
     protected override void LoadContent()
     {
-        _logo = _sceneContent.Load<Texture2D>("images/logo");
-        _logoAspect = _logo.Width / (float)_logo.Height;
-        _fadeToBlack = new Texture2D(GraphicsDevice, 1, 1);
-        _fadeToBlack.SetData(new Color[] { Color.Black });
+        _spriteAtlas.LoadSheet("spritesheet_hud");
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         SetWindowSize();
         base.LoadContent();
@@ -48,18 +45,13 @@ public class LogoScene : DrawableGameComponent
             _overlayAlpha = MathHelper.Lerp(0f, 1f, (_logoTimeElapsed - 1f) / 0.5f);
             _overlayAlpha = MathHelper.Clamp(_overlayAlpha, 0f, 1f);
         }
-
-        if (_logoTimeElapsed > _logoDuration)
-        {
-            ((TargetPractice)Game).ChangeScene("MainMenu");
-        }
         base.Update(gameTime);
     }
 
     public override void Draw(GameTime gameTime)
     {
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-        _spriteBatch.Draw(_logo, _logoDestRect, null, Color.White, 0f, Vector2.Zero, SpriteEffects.None, 0f); _spriteBatch.Draw(_fadeToBlack, _fullScreenRect, null, new Color(0f, 0f, 0f, _overlayAlpha), 0f, Vector2.Zero, SpriteEffects.None, 1.0f);
+        _spriteAtlas.Draw(_spriteBatch, "spritesheet_hud", "crosshair_blue_large.png", new Vector2(100, 100), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.5f);
         _spriteBatch.End();
         base.Draw(gameTime);
     }

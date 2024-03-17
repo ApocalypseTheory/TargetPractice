@@ -1,4 +1,6 @@
 ﻿
+using System;
+using System.ComponentModel;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -23,8 +25,7 @@ public class TargetPractice : Game
 
     protected override void Initialize()
     {
-        var scene = new LogoScene(this);
-        Components.Add(scene);
+        ChangeScene("Logo");
         base.Initialize();
     }
 
@@ -58,5 +59,24 @@ public class TargetPractice : Game
         _graphics.IsFullScreen = true;
         _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+    }
+
+    public void ChangeScene(string nextScene)
+    {
+        Console.WriteLine($"Changing scene to {nextScene}");
+        DrawableGameComponent scene;
+        Components.Clear();
+        switch (nextScene)
+        {
+            case "MainMenu":
+                scene = new MainMenuScene(this);
+                break;
+            case "Logo":
+                scene = new LogoScene(this);
+                break;
+            default:
+                throw new InvalidEnumArgumentException();
+        }
+        Components.Add(scene);
     }
 }
