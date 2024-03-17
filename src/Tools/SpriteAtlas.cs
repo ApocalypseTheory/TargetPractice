@@ -4,6 +4,8 @@ using Microsoft.Xna.Framework.Graphics;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
+namespace TargetPractice.Tools;
+
 public class SpriteAtlas
 {
     private Dictionary<string, Texture2D> _sheets = new Dictionary<string, Texture2D>();

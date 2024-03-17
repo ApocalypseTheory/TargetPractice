@@ -52,7 +52,7 @@ public class LogoScene : DrawableGameComponent
 
         if (_logoTimeElapsed > _logoDuration)
         {
-            ((TargetPractice)Game).ChangeScene("MainMenu");
+            ((TargetPractice)Game).ChangeScene(this, "MainMenu");
         }
         base.Update(gameTime);
     }

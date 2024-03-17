@@ -5,14 +5,17 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using TargetPractice.Scenes;
+using TargetPractice.Tools;
 
 
 namespace TargetPractice;
 
 public class TargetPractice : Game
 {
-    private GraphicsDeviceManager _graphics;
+    private readonly GraphicsDeviceManager _graphics;
+    private readonly Settings _settings;
     private SpriteBatch _spriteBatch;
+
 
 
 
@@ -21,13 +24,17 @@ public class TargetPractice : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        ConfigureBorderlessFullScreen();
+        _settings = new Settings(this);
+        Components.Add(_settings);
+        Console.WriteLine("TargetPractice constructor");
     }
 
     protected override void Initialize()
     {
-        ChangeScene("Logo");
+        var scene = new LogoScene(this);
+        Components.Add(scene);
         base.Initialize();
+
     }
 
     protected override void LoadContent()
@@ -52,35 +59,13 @@ public class TargetPractice : Game
         _spriteBatch.End();
     }
 
-    private void ConfigureGraphicsFullScreen()
-    {
-        Window.AllowUserResizing = false;
-        _graphics.IsFullScreen = true;
-        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-    }
-    private void ConfigureBorderlessFullScreen()
-    {
-        Window.AllowUserResizing = false;
-        Window.IsBorderless = true;
-        _graphics.IsFullScreen = true;
-        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
-        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
-    }
 
-    private void ConfigureGraphicsWindowed()
-    {
-        Window.AllowUserResizing = true;
-        _graphics.IsFullScreen = false;
-        _graphics.PreferredBackBufferWidth = 800;
-        _graphics.PreferredBackBufferHeight = 480;
-    }
 
-    public void ChangeScene(string nextScene)
+    public void ChangeScene(DrawableGameComponent currentScene, string nextScene)
     {
         Console.WriteLine($"Changing scene to {nextScene}");
         DrawableGameComponent scene;
-        Components.Clear();
+        Components.Remove(currentScene);
         switch (nextScene)
         {
             case "MainMenu":
