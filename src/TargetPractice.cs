@@ -15,6 +15,7 @@ public class TargetPractice : Game
     private SpriteBatch _spriteBatch;
 
 
+
     public TargetPractice()
     {
         _graphics = new GraphicsDeviceManager(this);
@@ -40,7 +41,6 @@ public class TargetPractice : Game
     {
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
-        // OnResize();
         base.Update(gameTime);
     }
 
@@ -52,6 +52,13 @@ public class TargetPractice : Game
         _spriteBatch.End();
     }
 
+    private void ConfigureGraphicsFullScreen()
+    {
+        Window.AllowUserResizing = false;
+        _graphics.IsFullScreen = true;
+        _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
+        _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+    }
     private void ConfigureBorderlessFullScreen()
     {
         Window.AllowUserResizing = false;
@@ -59,6 +66,14 @@ public class TargetPractice : Game
         _graphics.IsFullScreen = true;
         _graphics.PreferredBackBufferWidth = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Width;
         _graphics.PreferredBackBufferHeight = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode.Height;
+    }
+
+    private void ConfigureGraphicsWindowed()
+    {
+        Window.AllowUserResizing = true;
+        _graphics.IsFullScreen = false;
+        _graphics.PreferredBackBufferWidth = 800;
+        _graphics.PreferredBackBufferHeight = 480;
     }
 
     public void ChangeScene(string nextScene)
@@ -79,4 +94,6 @@ public class TargetPractice : Game
         }
         Components.Add(scene);
     }
+
+
 }

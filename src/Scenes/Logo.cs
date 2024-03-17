@@ -17,6 +17,7 @@ public class LogoScene : DrawableGameComponent
     private int _scaledWidth, _scaledHeight;
     private Rectangle _logoDestRect, _fullScreenRect;
     private Vector2 _screenSize;
+    private Vector2 _currentScreenSize;
     public LogoScene(Game game) : base(game)
     {
         _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
@@ -34,7 +35,7 @@ public class LogoScene : DrawableGameComponent
         _fadeToBlack = new Texture2D(GraphicsDevice, 1, 1);
         _fadeToBlack.SetData(new Color[] { Color.Black });
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        SetWindowSize();
+        CheckForWindowResize();
         base.LoadContent();
 
 
@@ -64,8 +65,10 @@ public class LogoScene : DrawableGameComponent
         base.Draw(gameTime);
     }
 
-    public void SetWindowSize()
+    public void CheckForWindowResize()
     {
+        if (_currentScreenSize == new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height)) return;
+        _currentScreenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         _screenAspect = _screenSize.X / (float)_screenSize.Y;
         if (_logoAspect > _screenAspect)
