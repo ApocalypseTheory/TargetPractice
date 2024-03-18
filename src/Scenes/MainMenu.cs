@@ -10,13 +10,8 @@ public class MainMenuScene : DrawableGameComponent
     private SpriteBatch _spriteBatch;
     private ContentManager _sceneContent;
     private SpriteAtlas _spriteAtlas;
-    private float _logoTimeElapsed = 0f;
-    private float _logoDuration = 3f;
-    private float _overlayAlpha = 0f;
-    private float _screenAspect, _logoAspect;
-    private int _scaledWidth, _scaledHeight;
-    private Rectangle _logoDestRect, _fullScreenRect;
-    private Vector2 _screenSize;
+    private Texture2D stall_sheet;
+
     public MainMenuScene(Game game) : base(game)
     {
         _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
@@ -31,8 +26,9 @@ public class MainMenuScene : DrawableGameComponent
     protected override void LoadContent()
     {
         _spriteAtlas.LoadSheet("spritesheet_hud");
+        _spriteAtlas.LoadSheet("spritesheet_stall");
+        stall_sheet = _spriteAtlas.GetSpriteSheet("spritesheet_stall");
         _spriteBatch = new SpriteBatch(GraphicsDevice);
-        SetWindowSize();
         base.LoadContent();
 
 
@@ -40,45 +36,36 @@ public class MainMenuScene : DrawableGameComponent
 
     public override void Update(GameTime gameTime)
     {
-        _logoTimeElapsed += (float)gameTime.ElapsedGameTime.TotalSeconds;
-        if (_logoTimeElapsed > 1f && _logoTimeElapsed <= _logoDuration)
-        {
-            _overlayAlpha = MathHelper.Lerp(0f, 1f, (_logoTimeElapsed - 1f) / 0.5f);
-            _overlayAlpha = MathHelper.Clamp(_overlayAlpha, 0f, 1f);
-        }
         base.Update(gameTime);
     }
 
     public override void Draw(GameTime gameTime)
     {
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-        _spriteAtlas.Draw(_spriteBatch, "spritesheet_hud", "crosshair_blue_large.png", new Vector2(100, 100), Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0.5f);
+        DrawBackground();
         _spriteBatch.End();
         base.Draw(gameTime);
-    }
-
-    public void SetWindowSize()
-    {
-        _screenSize = new Vector2(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
-        _screenAspect = _screenSize.X / (float)_screenSize.Y;
-        if (_logoAspect > _screenAspect)
-        {
-            _scaledWidth = (int)_screenSize.X;
-            _scaledHeight = (int)(_scaledWidth / _logoAspect);
-        }
-        else
-        {
-            _scaledHeight = (int)_screenSize.Y;
-            _scaledWidth = (int)(_scaledHeight * _logoAspect);
-
-        }
-        _logoDestRect = new Rectangle(((int)_screenSize.X - _scaledWidth) / 2, ((int)_screenSize.Y - _scaledHeight) / 2, _scaledWidth, _scaledHeight);
-        _fullScreenRect = new Rectangle(0, 0, (int)_screenSize.X, (int)_screenSize.Y);
     }
 
     protected override void UnloadContent()
     {
         _sceneContent.Unload();
         base.UnloadContent();
+    }
+
+    private void DrawBackground()
+    {
+        var background = _spriteAtlas.GetSpriteRectangle("spritesheet_stall", "bg_wood");
+        var bgWidth = background.Value.Width;
+        var bgHeight = background.Value.Height;
+        var screenWidth = GraphicsDevice.Viewport.Width;
+        var screenHeight = GraphicsDevice.Viewport.Height;
+        for (var x = 0; x < screenWidth; x += bgWidth)
+        {
+            for (var y = 0; y < screenHeight; y += bgHeight)
+            {
+                _spriteBatch.Draw(stall_sheet, new Vector2(x, y), background, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
+            }
+        }
     }
 }

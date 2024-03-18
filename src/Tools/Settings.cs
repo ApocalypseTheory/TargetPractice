@@ -8,7 +8,6 @@ namespace TargetPractice.Tools;
 
 public class Settings : DrawableGameComponent
 {
-
     GraphicsDeviceManager _graphics;
     DisplayMode _displayMode;
 
@@ -25,6 +24,8 @@ public class Settings : DrawableGameComponent
         Console.WriteLine(settings);
         ApplySettings(settings);
         base.Initialize();
+
+
     }
 
     public static Dictionary<string, string> ReadSettings()
@@ -64,7 +65,6 @@ public class Settings : DrawableGameComponent
                 ConfigureGraphicsWindowed();
                 break;
         }
-
     }
 
     public void ConfigureGraphicsFullScreen()

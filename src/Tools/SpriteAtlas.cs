@@ -17,14 +17,14 @@ public class SpriteAtlas
         _content = content;
     }
 
-    public void LoadSheet(string assetName)
+    public void LoadSheet(string spriteSheet)
     {
-        Texture2D sheet = _content.Load<Texture2D>($"spritesheets/{assetName}");
-        _sheets[assetName] = sheet;
-        LoadSprites(assetName, $"Content/xml/{assetName}.xml");
+        Texture2D sheet = _content.Load<Texture2D>($"spritesheets/{spriteSheet}");
+        _sheets[spriteSheet] = sheet;
+        LoadSprites(spriteSheet, $"Content/xml/{spriteSheet}.xml");
     }
 
-    private void LoadSprites(string assetName, string xmlPath)
+    private void LoadSprites(string spriteSheet, string xmlPath)
     {
         XDocument doc = XDocument.Load(xmlPath);
         Dictionary<string, Rectangle> spriteMap = new Dictionary<string, Rectangle>();
@@ -38,16 +38,24 @@ public class SpriteAtlas
 
             spriteMap[name] = new Rectangle(x, y, width, height);
         }
-        _sprites[assetName] = spriteMap;
+        _sprites[spriteSheet] = spriteMap;
     }
 
-    public void Draw(SpriteBatch spriteBatch, string assetName, string spriteName, Vector2 position, Color color, float rotation = 0f, Vector2 origin = default, float scale = 1f, SpriteEffects effects = SpriteEffects.None, float layerDepth = 0f)
+    public Texture2D GetSpriteSheet(string spriteSheet)
     {
-        if (_sprites.ContainsKey(assetName) && _sprites[assetName].ContainsKey(spriteName))
+        if (_sheets.ContainsKey(spriteSheet))
         {
-            Texture2D sheet = _sheets[assetName];
-            Rectangle sourceRectangle = _sprites[assetName][spriteName];
-            spriteBatch.Draw(sheet, position, sourceRectangle, color, rotation, origin, scale, effects, layerDepth);
+            return _sheets[spriteSheet];
         }
+        return null;
+    }
+
+    public Rectangle? GetSpriteRectangle(string spriteSheet, string spriteName)
+    {
+        if (_sprites.ContainsKey(spriteSheet) && _sprites[spriteSheet].ContainsKey(spriteName))
+        {
+            return _sprites[spriteSheet][spriteName];
+        }
+        return null;
     }
 }
