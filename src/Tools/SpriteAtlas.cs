@@ -1,6 +1,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
 
@@ -19,7 +20,9 @@ public class SpriteAtlas
 
     public void LoadSheet(string spriteSheet)
     {
+        Console.WriteLine($"Loading sprite sheet {spriteSheet}");
         Texture2D sheet = _content.Load<Texture2D>($"spritesheets/{spriteSheet}");
+        Console.WriteLine($"Loaded sprite sheet {spriteSheet}");
         _sheets[spriteSheet] = sheet;
         LoadSprites(spriteSheet, $"Content/xml/{spriteSheet}.xml");
     }

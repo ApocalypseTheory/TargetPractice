@@ -21,6 +21,7 @@ public class LogoScene : DrawableGameComponent
     public LogoScene(Game game) : base(game)
     {
         _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
+        Game.Components.Add(this);
     }
 
     public override void Initialize()
@@ -52,7 +53,8 @@ public class LogoScene : DrawableGameComponent
 
         if (_logoTimeElapsed > _logoDuration)
         {
-            ((TargetPractice)Game).ChangeScene(this, "MainMenu");
+            Game.Components.Add(new MainMenuScene(Game));
+            Game.Components.Remove(this);
         }
         base.Update(gameTime);
     }

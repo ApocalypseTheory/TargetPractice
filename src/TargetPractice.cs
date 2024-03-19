@@ -13,7 +13,6 @@ namespace TargetPractice;
 public class TargetPractice : Game
 {
     private readonly GraphicsDeviceManager _graphics;
-    private readonly Settings _settings;
     private SpriteBatch _spriteBatch;
 
 
@@ -24,15 +23,12 @@ public class TargetPractice : Game
         _graphics = new GraphicsDeviceManager(this);
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
-        _settings = new Settings(this);
-        Components.Add(_settings);
-        Console.WriteLine("TargetPractice constructor");
+        Settings.GetInstance(this);
     }
 
     protected override void Initialize()
     {
         var scene = new LogoScene(this);
-        Components.Add(scene);
         base.Initialize();
 
     }
@@ -58,27 +54,5 @@ public class TargetPractice : Game
         base.Draw(gameTime);
         _spriteBatch.End();
     }
-
-
-
-    public void ChangeScene(DrawableGameComponent currentScene, string nextScene)
-    {
-        Console.WriteLine($"Changing scene to {nextScene}");
-        DrawableGameComponent scene;
-        Components.Remove(currentScene);
-        switch (nextScene)
-        {
-            case "MainMenu":
-                scene = new MainMenuScene(this);
-                break;
-            case "Logo":
-                scene = new LogoScene(this);
-                break;
-            default:
-                throw new InvalidEnumArgumentException();
-        }
-        Components.Add(scene);
-    }
-
 
 }
