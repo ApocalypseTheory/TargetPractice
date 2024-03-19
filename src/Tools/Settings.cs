@@ -39,7 +39,7 @@ public class Settings
         Console.WriteLine("Initializing settings");
         var settings = ReadSettings();
         Console.WriteLine(settings);
-        ApplySettings(settings);
+        ApplyVideoSettings(settings);
     }
 
     private static Dictionary<string, string> ReadSettings()
@@ -60,10 +60,8 @@ public class Settings
         return settings;
     }
 
-    private static void ApplySettings(Dictionary<string, string> settings)
+    private static void ApplyVideoSettings(Dictionary<string, string> settings)
     {
-        Console.WriteLine(settings["Mode"]);
-
         switch (settings["Mode"])
         {
             case "FullScreen":
@@ -120,4 +118,30 @@ public class Settings
         }
         return defaultValue;
     }
+
+    public static void UpdateSetting(string key, string newValue)
+    {
+        GlobalSettings[key] = newValue;
+        var lines = File.ReadAllLines("Content/settings.ini");
+        bool keyFound = false;
+        for (int i = 0; i < lines.Length; i++)
+        {
+            var line = lines[i].Split('#', 2);
+            var keyValue = line[0].Trim().Split('=', 2);
+
+            if (keyValue.Length == 2 && keyValue[0].Trim() == key)
+            {
+                lines[i] = $"{keyValue[0].Trim()}={newValue}" + (line.Length > 1 ? $" # {line[1].Trim()}" : "");
+                keyFound = true;
+                break;
+            }
+        }
+
+        if (keyFound)
+        {
+            File.WriteAllLines("Content/settings.ini", lines);
+        }
+
+    }
+
 }
