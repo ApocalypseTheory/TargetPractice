@@ -1,7 +1,6 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Content;
 using Microsoft.Xna.Framework.Graphics;
-using TargetPractice.Tools;
 using TargetPractice.Objects;
 using System.Collections.Generic;
 
@@ -11,14 +10,11 @@ public class MainMenuScene : DrawableGameComponent
 {
     private SpriteBatch _spriteBatch;
     private ContentManager _sceneContent;
-    private SpriteAtlas _spriteAtlas;
-    private Texture2D stall_sheet;
     private Dictionary<string, DrawableGameComponent> _components = new Dictionary<string, DrawableGameComponent>();
 
     public MainMenuScene(Game game) : base(game)
     {
         _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
-        _spriteAtlas = new SpriteAtlas(_sceneContent);
     }
 
     public override void Initialize()
@@ -51,5 +47,4 @@ public class MainMenuScene : DrawableGameComponent
         _sceneContent.Unload();
         base.UnloadContent();
     }
-
 }

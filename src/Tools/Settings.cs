@@ -9,40 +9,45 @@ namespace TargetPractice.Tools;
 public class Settings
 {
     private static Settings _instance;
-    private static GraphicsDeviceManager _graphics;
-    private static DisplayMode _displayMode;
-    private static Game _game;
-    public static Dictionary<string, string> GlobalSettings;
+    private GraphicsDeviceManager _graphics;
+    private DisplayMode _displayMode;
+    private Game _game;
+    private Dictionary<string, string> GlobalSettings;
 
-    // Private constructor
     private Settings(Game game)
     {
+        _game = game;
+        var settings = ReadSettings();
         _graphics = (GraphicsDeviceManager)game.Services.GetService(typeof(IGraphicsDeviceManager));
         _displayMode = GraphicsAdapter.DefaultAdapter.CurrentDisplayMode;
-    }
-
-    // Public static method to get instance
-    public static Settings GetInstance(Game game)
-    {
-
-        if (_instance == null)
-        {
-            _game = game;
-            _instance = new Settings(game);
-            Initialize();
-        }
-        return _instance;
-    }
-
-    private static void Initialize()
-    {
-        Console.WriteLine("Initializing settings");
-        var settings = ReadSettings();
-        Console.WriteLine(settings);
         ApplyVideoSettings(settings);
     }
+    public static Settings Instance
+    {
 
-    private static Dictionary<string, string> ReadSettings()
+        get
+        {
+            if (_instance == null)
+            {
+                throw new Exception("Settings not initialized");
+            }
+            return _instance;
+        }
+    }
+
+    public static void Initialize(Game game)
+    {
+        if (_instance == null)
+        {
+            _instance = new Settings(game);
+        }
+        else
+        {
+            throw new InvalidOperationException("Settings already initialized");
+        }
+    }
+
+    private Dictionary<string, string> ReadSettings()
     {
         var settings = new Dictionary<string, string>();
         var lines = File.ReadAllLines("Content/settings.ini");
@@ -60,7 +65,7 @@ public class Settings
         return settings;
     }
 
-    private static void ApplyVideoSettings(Dictionary<string, string> settings)
+    private void ApplyVideoSettings(Dictionary<string, string> settings)
     {
         switch (settings["Mode"])
         {
@@ -79,7 +84,7 @@ public class Settings
         }
     }
 
-    private static void ConfigureGraphicsFullScreen()
+    private void ConfigureGraphicsFullScreen()
     {
         Console.WriteLine("Configuring full screen");
         _game.Window.AllowUserResizing = false;
@@ -89,7 +94,7 @@ public class Settings
         _graphics.ApplyChanges();
     }
 
-    private static void ConfigureBorderlessFullScreen()
+    private void ConfigureBorderlessFullScreen()
     {
         Console.WriteLine("Configuring borderless full screen");
         _game.Window.AllowUserResizing = false;
@@ -100,7 +105,7 @@ public class Settings
         _graphics.ApplyChanges();
     }
 
-    private static void ConfigureGraphicsWindowed(int width = 800, int height = 480)
+    private void ConfigureGraphicsWindowed(int width = 800, int height = 480)
     {
         Console.WriteLine("Configuring windowed");
         _game.Window.AllowUserResizing = true;
@@ -110,7 +115,7 @@ public class Settings
         _graphics.ApplyChanges();
     }
 
-    public static string GetSetting(string key, string defaultValue = "")
+    public string GetSetting(string key, string defaultValue = "")
     {
         if (GlobalSettings.TryGetValue(key, out string value))
         {
@@ -119,7 +124,7 @@ public class Settings
         return defaultValue;
     }
 
-    public static void UpdateSetting(string key, string newValue)
+    public void UpdateSetting(string key, string newValue)
     {
         GlobalSettings[key] = newValue;
         var lines = File.ReadAllLines("Content/settings.ini");

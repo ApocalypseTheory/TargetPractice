@@ -38,8 +38,6 @@ public class LogoScene : DrawableGameComponent
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         CheckForWindowResize();
         base.LoadContent();
-
-
     }
 
     public override void Update(GameTime gameTime)

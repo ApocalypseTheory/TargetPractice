@@ -9,25 +9,68 @@ namespace TargetPractice.Tools;
 
 public class SpriteAtlas
 {
+    private static SpriteAtlas _instance;
     private Dictionary<string, Texture2D> _sheets = new Dictionary<string, Texture2D>();
     private Dictionary<string, Dictionary<string, Rectangle>> _sprites = new Dictionary<string, Dictionary<string, Rectangle>>();
+    private Dictionary<string, int> _spriteRefCount = new Dictionary<string, int>();
     private ContentManager _content;
 
-    public SpriteAtlas(ContentManager content)
+    private SpriteAtlas(ContentManager content)
     {
         _content = content;
     }
 
-    public void LoadSheet(string spriteSheet)
+    public static SpriteAtlas Instance
     {
-        Console.WriteLine($"Loading sprite sheet {spriteSheet}");
-        Texture2D sheet = _content.Load<Texture2D>($"spritesheets/{spriteSheet}");
-        Console.WriteLine($"Loaded sprite sheet {spriteSheet}");
-        _sheets[spriteSheet] = sheet;
-        LoadSprites(spriteSheet, $"Content/xml/{spriteSheet}.xml");
+        get
+        {
+            if (_instance == null)
+            {
+                throw new Exception("SpriteAtlas not initialized");
+            }
+            return _instance;
+        }
     }
 
-    private void LoadSprites(string spriteSheet, string xmlPath)
+    public static void Initialize(ContentManager content)
+    {
+        if (_instance == null)
+        {
+            _instance = new SpriteAtlas(content);
+        }
+        else
+        {
+            throw new InvalidOperationException("SpriteAtlas already initialized");
+        }
+    }
+
+    public void RegisterSpriteSheet(string spriteSheet)
+    {
+        if (_sheets.ContainsKey(spriteSheet))
+        {
+            _spriteRefCount[spriteSheet]++;
+            return;
+        };
+        _spriteRefCount[spriteSheet] = 1;
+        Texture2D sheet = _content.Load<Texture2D>($"spritesheets/{spriteSheet}");
+        _sheets[spriteSheet] = sheet;
+        RegisterSpriteSheetSprites(spriteSheet, $"Content/xml/{spriteSheet}.xml");
+    }
+
+    public void DeregisterSpriteSheet(string spriteSheet)
+    {
+        if (_spriteRefCount.ContainsKey(spriteSheet))
+        {
+            _spriteRefCount[spriteSheet]--;
+            if (_spriteRefCount[spriteSheet] == 0)
+            {
+                _spriteRefCount.Remove(spriteSheet);
+                _sheets.Remove(spriteSheet);
+                _sprites.Remove(spriteSheet);
+            }
+        }
+    }
+    private void RegisterSpriteSheetSprites(string spriteSheet, string xmlPath)
     {
         XDocument doc = XDocument.Load(xmlPath);
         Dictionary<string, Rectangle> spriteMap = new Dictionary<string, Rectangle>();
