@@ -34,6 +34,7 @@ public class TargetPractice : Game
 
     protected override void Update(GameTime gameTime)
     {
+        ScaleManager.UpdateResolution(GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
         base.Update(gameTime);

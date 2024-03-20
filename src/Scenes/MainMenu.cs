@@ -26,6 +26,7 @@ public class MainMenuScene : DrawableGameComponent
     protected override void LoadContent()
     {
         _components.Add("Background", new Background(Game));
+        _components.Add("Stage", new Stage(Game));
         base.LoadContent();
     }
 
