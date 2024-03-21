@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TargetPractice.Tools;
@@ -5,7 +6,7 @@ using TargetPractice.Tools;
 public class Stage : DrawableGameComponent
 {
     private SpriteBatch _spriteBatch;
-    private Texture2D stall_sheet;
+    private List<string> _assets = new List<string>();
     public Stage(Game game) : base(game)
     {
         game.Components.Add(this);
@@ -19,9 +20,14 @@ public class Stage : DrawableGameComponent
 
     protected override void LoadContent()
     {
-        SpriteAtlas.Instance.RegisterSpriteSheet("spritesheet_stall");
-        stall_sheet = SpriteAtlas.Instance.GetSpriteSheet("spritesheet_stall");
+        LoadAssets("spritesheet_stall");
         base.LoadContent();
+    }
+
+    private void LoadAssets(string asset)
+    {
+        _assets.Add(asset);
+        SpriteAtlas.Instance.RegisterSpriteSheet(asset);
     }
 
     public override void Update(GameTime gameTime)
@@ -31,10 +37,13 @@ public class Stage : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
+        var stall_sheet = SpriteAtlas.Instance.GetSpriteSheet("spritesheet_stall");
+
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
         var topRect = SpriteAtlas.Instance.GetSpriteRectangle("spritesheet_stall", "curtain_straight");
         var topBackRect = SpriteAtlas.Instance.GetSpriteRectangle("spritesheet_stall", "curtain_top");
         var curtainSSPos = SpriteAtlas.Instance.GetSpriteRectangle("spritesheet_stall", "curtain");
+        var rope = SpriteAtlas.Instance.GetSpriteRectangle("spritesheet_stall", "curtain_rope");
         var alternate = 0;
         for (float x = 0; x < GraphicsDevice.Viewport.Width; x += (float)topRect.Value.Width / 1.5f)
         {
@@ -58,7 +67,25 @@ public class Stage : DrawableGameComponent
 
         _spriteBatch.Draw(stall_sheet, lPos, curtainSSPos, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.9f);
         _spriteBatch.Draw(stall_sheet, rPos, curtainSSPos, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0.9f);
+
+        // var lRope = new Vector2(-10 * scale, 260 * scale);
+        // var rRope = new Vector2(-GraphicsDevice.Viewport.Width - rope.Value.Width * scale, 260 * scale);
+        // _spriteBatch.Draw(stall_sheet, lRope, rope, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0.95f);
+        // _spriteBatch.Draw(stall_sheet, rRope, rope, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.FlipHorizontally, 0.95f);
+
+
         _spriteBatch.End();
         base.Draw(gameTime);
+    }
+
+    protected override void UnloadContent()
+    {
+        foreach (var asset in _assets)
+        {
+            SpriteAtlas.Instance.DeregisterSpriteSheet(asset);
+        }
+
+        base.UnloadContent();
+        Game.Components.Remove(this);
     }
 }

@@ -9,12 +9,10 @@ namespace TargetPractice.Scenes;
 public class MainMenuScene : DrawableGameComponent
 {
     private SpriteBatch _spriteBatch;
-    private ContentManager _sceneContent;
     private Dictionary<string, DrawableGameComponent> _components = new Dictionary<string, DrawableGameComponent>();
 
     public MainMenuScene(Game game) : base(game)
     {
-        _sceneContent = new ContentManager(Game.Services, Game.Content.RootDirectory);
     }
 
     public override void Initialize()
@@ -45,7 +43,10 @@ public class MainMenuScene : DrawableGameComponent
 
     protected override void UnloadContent()
     {
-        _sceneContent.Unload();
+        foreach (var component in _components)
+        {
+            component.Value.Dispose();
+        }
         base.UnloadContent();
     }
 }

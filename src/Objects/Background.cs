@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using TargetPractice.Tools;
@@ -6,7 +8,7 @@ namespace TargetPractice.Objects;
 public class Background : DrawableGameComponent
 {
     private SpriteBatch _spriteBatch;
-    private Texture2D stall_sheet;
+    List<string> _assets = new List<string>();
 
     public Background(Game game) : base(game)
     {
@@ -21,9 +23,14 @@ public class Background : DrawableGameComponent
 
     protected override void LoadContent()
     {
-        SpriteAtlas.Instance.RegisterSpriteSheet("spritesheet_stall");
-        stall_sheet = SpriteAtlas.Instance.GetSpriteSheet("spritesheet_stall");
+        LoadAssets("spritesheet_stall");
         base.LoadContent();
+    }
+
+    private void LoadAssets(string asset)
+    {
+        _assets.Add(asset);
+        SpriteAtlas.Instance.RegisterSpriteSheet(asset);
     }
 
     public override void Update(GameTime gameTime)
@@ -33,6 +40,8 @@ public class Background : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
+        var stall_sheet = SpriteAtlas.Instance.GetSpriteSheet("spritesheet_stall");
+
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
         var backgroundImage = Settings.Instance.GetSetting("Background");
         var background = SpriteAtlas.Instance.GetSpriteRectangle("spritesheet_stall", backgroundImage);
@@ -49,5 +58,16 @@ public class Background : DrawableGameComponent
         }
         _spriteBatch.End();
         base.Draw(gameTime);
+    }
+
+    protected override void UnloadContent()
+    {
+        foreach (var asset in _assets)
+        {
+            SpriteAtlas.Instance.DeregisterSpriteSheet(asset);
+        }
+
+        base.UnloadContent();
+        Game.Components.Remove(this);
     }
 }
