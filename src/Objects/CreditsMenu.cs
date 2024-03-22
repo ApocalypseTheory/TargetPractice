@@ -5,12 +5,12 @@ using TargetPractice.Tools;
 
 namespace TargetPractice.Objects;
 
-public class StartMenu : DrawableGameComponent
+public class CreditsMenu : DrawableGameComponent
 {
     private SpriteBatch _spriteBatch;
     List<string> _assets = new List<string>();
 
-    public StartMenu(Game game) : base(game)
+    public CreditsMenu(Game game) : base(game)
     {
         game.Components.Add(this);
     }
@@ -42,14 +42,6 @@ public class StartMenu : DrawableGameComponent
 
     public override void Draw(GameTime gameTime)
     {
-        _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
-        var blueButton = SpriteAtlas.Instance.GetSpriteSheet("blueSheet");
-        var blueButtonRect = SpriteAtlas.Instance.GetSpriteRectangle("blueSheet", "blue_button00");
-        var screenWidth = GraphicsDevice.Viewport.Width;
-        var screenHeight = GraphicsDevice.Viewport.Height;
-
-        _spriteBatch.Draw(blueButton, new Vector2((screenWidth - blueButtonRect.Value.Width) / 2, screenHeight / 3), blueButtonRect, Color.White, 0f, Vector2.Zero, 1f, SpriteEffects.None, 0f);
-        _spriteBatch.End();
         base.Draw(gameTime);
     }
 

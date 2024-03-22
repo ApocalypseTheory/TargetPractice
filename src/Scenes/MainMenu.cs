@@ -25,6 +25,7 @@ public class MainMenuScene : DrawableGameComponent
     {
         _components.Add("Background", new Background(Game));
         _components.Add("Stage", new Stage(Game));
+        _components.Add("StartMenu", new StartMenu(Game));
         base.LoadContent();
     }
 

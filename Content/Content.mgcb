@@ -13,6 +13,13 @@
 
 #---------------------------------- Content ---------------------------------#
 
+#begin fonts/File.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/processorParam:PremultiplyAlpha=True
+/processorParam:TextureFormat=Compressed
+/build:fonts/File.spritefont
+
 #begin images/Logo.png
 /importer:TextureImporter
 /processor:TextureProcessor
@@ -24,6 +31,30 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:images/Logo.png
+
+#begin spritesheets/blueSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/blueSheet.png
+
+#begin spritesheets/greySheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/greySheet.png
 
 #begin spritesheets/spritesheet_hud.png
 /importer:TextureImporter
@@ -60,4 +91,16 @@
 /processorParam:MakeSquare=False
 /processorParam:TextureFormat=Color
 /build:spritesheets/spritesheet_stall.png
+
+#begin spritesheets/yellowSheet.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/processorParam:ColorKeyColor=255,0,255,255
+/processorParam:ColorKeyEnabled=True
+/processorParam:GenerateMipmaps=False
+/processorParam:PremultiplyAlpha=True
+/processorParam:ResizeToPowerOfTwo=False
+/processorParam:MakeSquare=False
+/processorParam:TextureFormat=Color
+/build:spritesheets/yellowSheet.png
 
