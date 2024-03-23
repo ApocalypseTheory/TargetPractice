@@ -57,10 +57,11 @@ public class LogoScene : DrawableGameComponent
         float scale = ScaleManager.GlobalScale;
         int scaledLogoWidth = (int)(_logo.Width * scale);
         int scaledLogoHeight = (int)(_logo.Height * scale);
-        Vector2 screenCenter = new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f);
-        Vector2 logoPosition = new Vector2(screenCenter.X - scaledLogoWidth / 2, screenCenter.Y - scaledLogoHeight / 2);
-
+        var screenCenter = new Vector2(GraphicsDevice.Viewport.Width / 2f, GraphicsDevice.Viewport.Height / 2f);
+        var logoPosition = new Vector2(screenCenter.X - scaledLogoWidth / 2, screenCenter.Y - scaledLogoHeight / 2);
+        var _fullScreenRect = new Rectangle(0, 0, GraphicsDevice.Viewport.Width, GraphicsDevice.Viewport.Height);
         _spriteBatch.Begin(SpriteSortMode.FrontToBack, BlendState.AlphaBlend);
+        _spriteBatch.Draw(_fadeToBlack, _fullScreenRect, null, new Color(0f, 0f, 0f, _overlayAlpha), 0f, Vector2.Zero, SpriteEffects.None, 1.0f);
         _spriteBatch.Draw(_logo, logoPosition, null, Color.White, 0f, Vector2.Zero, scale, SpriteEffects.None, 0f);
         _spriteBatch.End();
 
